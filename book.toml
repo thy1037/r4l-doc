@@ -1,0 +1,13 @@
+[book]
+authors = ["thy1037"]
+language = "zh"
+multilingual = false
+src = "src"
+title = "r4l"
+
+[build]
+build-dir = "docs"
+
+[output.html]
+git-repository-url = "https://github.com/thy1037/r4l-doc"
+git-repository-icon = "fa-github"

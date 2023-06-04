@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>qemu + linux6.1 - r4l</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="env.html"><strong aria-hidden="true">1.</strong> 环境搭建</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="env_docker.html"><strong aria-hidden="true">1.1.</strong> Docker 安装</a></li><li class="chapter-item expanded "><a href="env_docker_config.html"><strong aria-hidden="true">1.2.</strong> Docker 配置</a></li><li class="chapter-item expanded "><a href="env_01.html" class="active"><strong aria-hidden="true">1.3.</strong> qemu + linux6.1</a></li><li class="chapter-item expanded "><a href="env_02.html"><strong aria-hidden="true">1.4.</strong> qemu + gdb (TODO)</a></li><li class="chapter-item expanded "><a href="env_03.html"><strong aria-hidden="true">1.5.</strong> qemu + vscode (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="c.html"><strong aria-hidden="true">2.</strong> C 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="c_01.html"><strong aria-hidden="true">2.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="c_02.html"><strong aria-hidden="true">2.2.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">3.</strong> rust 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust_01.html"><strong aria-hidden="true">3.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="rust_mini_ko.html"><strong aria-hidden="true">3.2.</strong> 编译最简 ko 模块</a></li><li class="chapter-item expanded "><a href="rust_fujita_e1000.html"><strong aria-hidden="true">3.3.</strong> linux-fujita + e1000</a></li><li class="chapter-item expanded "><a href="rust_stm32h743_eth_c.html"><strong aria-hidden="true">3.4.</strong> STM32H743 以太网外设初始化分析</a></li><li class="chapter-item expanded "><a href="rust_add_llvm_log.html"><strong aria-hidden="true">3.5.</strong> LLVM 修复记录</a></li><li class="chapter-item expanded "><a href="rust_register_cmp.html"><strong aria-hidden="true">3.6.</strong> 寄存器对比</a></li><li class="chapter-item expanded "><a href="rust_register_info.html"><strong aria-hidden="true">3.7.</strong> 寄存器说明</a></li><li class="chapter-item expanded "><a href="rust_c_drv.html"><strong aria-hidden="true">3.8.</strong> C 驱动分析</a></li><li class="chapter-item expanded "><a href="rust_02.html"><strong aria-hidden="true">3.9.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="other.html"><strong aria-hidden="true">4.</strong> 其它</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="other_git_depth_checkout.html"><strong aria-hidden="true">4.1.</strong> depth 1 情况下切换分支</a></li></ol></li><li class="chapter-item expanded "><a href="iic-rust.html"><strong aria-hidden="true">5.</strong> IIC 驱动开发 (TODO)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">r4l</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thy1037/r4l-doc" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="qemu--linux61"><a class="header" href="#qemu--linux61">qemu + linux6.1</a></h1>
+<p>linux 6.1 是第一个增加 Rust 驱动开发的 TLS 版本。</p>
+<p>本章使用 qemu 内 express-a9 模拟器将 linux 6.1 运行起来。</p>
+<h2 id="qemu"><a class="header" href="#qemu">qemu</a></h2>
+<p><a href="https://www.qemu.org/download/">官网</a></p>
+<p>我使用的 Debian 仓库自带的版本，直接 apt 安装即可，版本：QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-11+deb11u2)</p>
+<p>也可在官网下载最新版本</p>
+<h2 id="编译器"><a class="header" href="#编译器">编译器</a></h2>
+<p><a href="https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/arm-linux-gnueabihf/">arm-linux-gnueabihf-7.5</a></p>
+<p>根据开发环境，我下载的 gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz。解压后将 gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin 添加进环境变量，便于后续使用。</p>
+<h2 id="linux-内核"><a class="header" href="#linux-内核">linux 内核</a></h2>
+<p><a href="https://www.kernel.org/">官方1</a> <a href="https://mirrors.edge.kernel.org/pub/linux/kernel/">官方2</a> <a href="https://mirror.bjtu.edu.cn/kernel/linux/kernel/">国内镜像</a></p>
+<p>我选择的 linux-6.1 最高版本 linux-6.1.21，下载、解压后进入目录。</p>
+<ol>
+<li>导出环境变量：</li>
+</ol>
+<pre><code class="language-bash">export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+</code></pre>
+<p>如果没将编译器目录添加进环境变量，还需将编译器可执行文件的完整目录导出：</p>
+<pre><code class="language-bash">export PATH=$PATH:/.../gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin
+</code></pre>
+<ol start="2">
+<li>生成默认配置</li>
+</ol>
+<pre><code class="language-bash">make vexpress_defconfig
+</code></pre>
+<ol start="3">
+<li>编译</li>
+</ol>
+<pre><code class="language-bash">make zImage dtbs -j4
+</code></pre>
+<p>编译结束后可以得到:</p>
+<pre><code>arch/arm/boot/zImage
+arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+</code></pre>
+<ol start="4">
+<li>修改配置
+为了方便修改 Makefile 文件：</li>
+</ol>
+<pre><code class="language-makefile">ARCH          ?= arm
+CROSS_COMPILE  = arm-linux-gnueabihf-
+</code></pre>
+<ol start="5">
+<li>运行</li>
+</ol>
+<pre><code class="language-bash">qemu-system-arm -M vexpress-a9 -m 256M -nographic -kernel zImage -dtb dts/vexpress-v2p-ca9.dtb
+</code></pre>
+<p>其中： <br>
+<strong>-M</strong>：指定 qemu 模拟的设备 <br>
+<strong>-m</strong>：指定内存大小 <br>
+<strong>-nographic</strong>：无图形化界面 <br>
+<strong>-kernel</strong>：指定内核 <br>
+<strong>-dtb</strong>：指定设备树</p>
+<p>有如下输出：</p>
+<pre><code class="language-bash">Booting Linux on physical CPU 0x0
+Linux version 6.1.21 (ehe@debian) (arm-linux-gnueabihf-gcc (Linaro GCC 7.5-2019.12) 7.5.0, GNU ld (Linaro_Binutils-2019.12) 2.28.2.20170706) #1 SMP Tue Apr  4 07:12:46 CST 2023
+...
+---[ end Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0) ]---
+</code></pre>
+<p>可以看到内核已经运行起来，内核、编译器版本、时间等信息也都显示正确，但最后出现了一个 panic，提示无法挂载根文件系统。</p>
+<h2 id="根文件系统"><a class="header" href="#根文件系统">根文件系统</a></h2>
+<p>linux 属于宏内核，运行依赖文件系统，需要在启动阶段就加载一个文件系统，将之称为<strong>根文件系统（root fs）</strong>，之后从文件系统中再继续运行其它程序，完成系统的完整启动。</p>
+<p>根文件系统的制作方法和工具，广泛使用的3种：</p>
+<ul>
+<li>busybox</li>
+<li>buildroot</li>
+<li>yocto</li>
+</ul>
+<p>这里使用 <strong>busybox</strong>，操作最简单，也最精简。</p>
+<p><a href="https://www.busybox.net/">官网</a>下载合适的版本，我这里选择当前最新的稳定版本 BusyBox 1.34.1</p>
+<ol>
+<li>配置
+解压后进入目录，依旧保持之前环境变量，并打开配置界面：</li>
+</ol>
+<pre><code class="language-bash">export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+make menuconfig
+</code></pre>
+<p>为了保持简单，使用静态库编译：</p>
+<pre><code>Settings ---&gt;
+    --- Build Options
+    [*] Build static binary (no shared libs)
+</code></pre>
+<ol start="2">
+<li>编译并安装</li>
+</ol>
+<pre><code class="language-bash">make
+make install
+</code></pre>
+<p>因为没有指定 <code>CONFIG_PREFIX</code>，默认安装路径为 busybox 下的 <code>_install</code> 目录。</p>
+<ol start="3">
+<li>静态创建设备文件</li>
+</ol>
+<pre><code class="language-bash">cd _install
+mkdir dev
+cd dev
+mknod -m 666 tty1 c 4 1
+mknod -m 666 tty2 c 4 2
+mknod -m 666 tty3 c 4 3
+mknod -m 666 tty4 c 4 4
+mknod -m 666 console c 5 1
+mknod -m 666 null c 1 3
+</code></pre>
+<ol start="4">
+<li>制作 root fs 镜像
+本质是将一块固定大小的存储空间，格式化为某种格式的文件系统，再将 <code>_install</code> 目录内的所有文件都拷贝进去，以下为虚拟设备和实体设备的对比：
+a. 创建</li>
+</ol>
+<pre><code class="language-bash">dd if=/dev/zero of=rootfs.ext4 bs=1M count=16
+</code></pre>
+<p>其中： <br>
+<strong>if</strong>：指定输入文件，这里用 <code>/dev/zero</code> 设备，即输入数据全是 0 <br>
+<strong>of</strong>：指定输出文件，这里是 <code>rootfs.ext4</code>，<code>.ext4</code>只是普通字符串，在文件名种说明文件格式 <br>
+<strong>bs</strong>：指定块大小，这里是 <code>1M</code> <br>
+<strong>count</strong>：指定块数量，这里是 <code>16</code>，即最终创建的存储空间为 <code>16M</code></p>
+<blockquote>
+<p>对比实体设备的购买SD</p>
+</blockquote>
+<p>b. 格式化</p>
+<pre><code class="language-bash">sudo mkfs.ext4 rootfs.ext4
+</code></pre>
+<blockquote>
+<p>对比实体设备的将SD卡格式化为 ext4 格式。</p>
+</blockquote>
+<p>c. 挂载</p>
+<pre><code class="language-bash">mkdir rootfs
+sudo mount -t ext4 rootfs.ext4 rootfs -o loop
+</code></pre>
+<p>创建一个目录 <code>rootfs</code> 将 rootfs.ext4 挂载上去。</p>
+<blockquote>
+<p>对比实体设备的插入SD卡，在 /mnt 出现新的存储设备</p>
+</blockquote>
+<p>d. 复制</p>
+<pre><code class="language-bash">sudo cp -rf _install/* rootfs
+</code></pre>
+<blockquote>
+<p>对比实体设备，就是将文件复制进SD卡</p>
+</blockquote>
+<p>e. 卸载</p>
+<pre><code class="language-bash">sudo unmount rootfs
+</code></pre>
+<blockquote>
+<p>对比实体设备的拔除SD卡</p>
+</blockquote>
+<p>这样 rootfs.ext4 镜像内即有 _install 目录下的所有内容</p>
+<h2 id="运行"><a class="header" href="#运行">运行</a></h2>
+<pre><code class="language-bash">qemu-system-arm -M vexpress-a9 -m 256M -nographic -kernel zImage -dtb dts/vexpress-v2p-ca9.dtb -sd rootfs.ext4 -append &quot;root=/dev/mmcblk0 rw console=ttyAMA0&quot;
+</code></pre>
+<p>其中： <br>
+<strong>-sd</strong>：指定存储设备为SD，并指定SD镜像为rootfs.ext4 <br>
+<strong>-append</strong>：添加附加命令，指定root fs 目录，指定控制台</p>
+<pre><code class="language-bash">Booting Linux on physical CPU 0x0
+Linux version 6.1.21 (ehe@debian) (arm-linux-gnueabihf-gcc (Linaro GCC 7.5-2019.12) 7.5.0, GNU ld (Linaro_Binutils-2019.12) 2.28.2.20170706) #1 SMP Tue Apr  4 07:12:46 CST 2023
+...
+Please press Enter to activate this console.
+/ # 
+</code></pre>
+<p>这样就完成里完整的启动，可以执行 busybox 自带的命令。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="env_docker_config.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="env_02.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="env_docker_config.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="env_02.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

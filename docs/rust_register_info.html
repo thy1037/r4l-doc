@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>寄存器说明 - r4l</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="env.html"><strong aria-hidden="true">1.</strong> 环境搭建</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="env_docker.html"><strong aria-hidden="true">1.1.</strong> Docker 安装</a></li><li class="chapter-item expanded "><a href="env_docker_config.html"><strong aria-hidden="true">1.2.</strong> Docker 配置</a></li><li class="chapter-item expanded "><a href="env_01.html"><strong aria-hidden="true">1.3.</strong> qemu + linux6.1</a></li><li class="chapter-item expanded "><a href="env_02.html"><strong aria-hidden="true">1.4.</strong> qemu + gdb (TODO)</a></li><li class="chapter-item expanded "><a href="env_03.html"><strong aria-hidden="true">1.5.</strong> qemu + vscode (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="c.html"><strong aria-hidden="true">2.</strong> C 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="c_01.html"><strong aria-hidden="true">2.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="c_02.html"><strong aria-hidden="true">2.2.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">3.</strong> rust 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust_01.html"><strong aria-hidden="true">3.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="rust_mini_ko.html"><strong aria-hidden="true">3.2.</strong> 编译最简 ko 模块</a></li><li class="chapter-item expanded "><a href="rust_fujita_e1000.html"><strong aria-hidden="true">3.3.</strong> linux-fujita + e1000</a></li><li class="chapter-item expanded "><a href="rust_stm32h743_eth_c.html"><strong aria-hidden="true">3.4.</strong> STM32H743 以太网外设初始化分析</a></li><li class="chapter-item expanded "><a href="rust_add_llvm_log.html"><strong aria-hidden="true">3.5.</strong> LLVM 修复记录</a></li><li class="chapter-item expanded "><a href="rust_register_cmp.html"><strong aria-hidden="true">3.6.</strong> 寄存器对比</a></li><li class="chapter-item expanded "><a href="rust_register_info.html" class="active"><strong aria-hidden="true">3.7.</strong> 寄存器说明</a></li><li class="chapter-item expanded "><a href="rust_c_drv.html"><strong aria-hidden="true">3.8.</strong> C 驱动分析</a></li><li class="chapter-item expanded "><a href="rust_02.html"><strong aria-hidden="true">3.9.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="other.html"><strong aria-hidden="true">4.</strong> 其它</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="other_git_depth_checkout.html"><strong aria-hidden="true">4.1.</strong> depth 1 情况下切换分支</a></li></ol></li><li class="chapter-item expanded "><a href="iic-rust.html"><strong aria-hidden="true">5.</strong> IIC 驱动开发 (TODO)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">r4l</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thy1037/r4l-doc" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="寄存器说明"><a class="header" href="#寄存器说明">寄存器说明</a></h1>
+<h2 id="mac"><a class="header" href="#mac">MAC</a></h2>
+<pre><code>// 非零寄存器
+Reg0 : 0800a003
+Reg40: 000000aa
+Reg42: 03020100
+Reg44: 00040008
+Reg53: 03e80000
+</code></pre>
+<ul>
+<li>Reg 0 <br>
+0b0000_1000_0000_0000_xx10_0000_0000_0011<br>
+使能校验、发送、接收，<br>
+其中<code>xx</code>为速度，包括后面的1是全双工模式，都是需要和 PHY 联合设置的。</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>bit 15</th><th>bit 14</th><th>速度</th></tr></thead><tbody>
+<tr><td>1</td><td>0</td><td>10Mbps</td></tr>
+<tr><td>1</td><td>1</td><td>100Mbps</td></tr>
+<tr><td>0</td><td>0</td><td>1Gbps</td></tr>
+<tr><td>0</td><td>1</td><td>2.5Gbps</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>
+<p>Reg 40 <br>
+<strong>可以固定，值为 <code>0x000000AA</code></strong> <br>
+使能接收队列0、1、2、3,并用于DCB/Generic</p>
+</li>
+<li>
+<p>Reg 42 <br>
+<strong>可以固定，值为 <code>0x03020100</code></strong> <br>
+设置接收队列0～3的优先级分别为3～0</p>
+</li>
+<li>
+<p>Reg 44 <br>
+<strong>中断状态寄存器，不可写入固定值</strong> <br>
+当前 0x00040008 表示：MDIO 中断、PHY 中断</p>
+</li>
+<li>
+<p>Reg 45 <br>
+<strong>可以固定，值为 <code>0x03e80000</code></strong> <br>
+一个定时器，当前值为 1000ms</p>
+</li>
+</ul>
+<h2 id="dma-ctrl"><a class="header" href="#dma-ctrl">DMA CTRL</a></h2>
+<pre><code>// 非零寄存器
+Reg0: 00010000
+Reg1: 0f0f080f
+Reg3: 03030300
+Reg4: 00000003
+</code></pre>
+<ul>
+<li>
+<p>Reg 0 <br>
+<strong>可以固定，值为 <code>0x00010000</code></strong> <br>
+表示传送完成可以触发中断，与 ETH_DMACIER 联合工作。</p>
+</li>
+<li>
+<p>Reg 1 <br>
+<strong>可以固定，值为 <code>0x0f0f080f</code></strong> <br>
+表示AXI 最大未完成写请求数为16、读请求数为16；使能增强地址模式；固定突发长度，长度可以是1、4、8、16</p>
+</li>
+<li>
+<p>Reg 3 Reg 4 <br>
+<strong>可以固定，值为 <code>0x00000000</code></strong> <br>
+调试寄存器，可以不写，保持默认值</p>
+</li>
+</ul>
+<h2 id="dma-ch0"><a class="header" href="#dma-ch0">DMA CH0</a></h2>
+<pre><code>// 非零寄存器
+Reg0 : 00010000
+Reg1 : 00080011
+Reg2 : 00080c01
+Reg5 : 83194000
+Reg7 : 83186000
+Reg8 : 83194000
+Reg10: 83188000
+Reg11: 000001ff
+Reg12: 000001ff
+Reg13: 0000d041
+Reg15: 000007c0
+Reg17: 83194000
+Reg19: 83186000
+Reg22: 00000001
+Reg23: 99a5d040
+</code></pre>
+<ul>
+<li>
+<p>Reg 0 <br>
+<strong>可以固定，值为 <code>0x00010000</code></strong> <br>
+表示使能 8xPBL 模式</p>
+</li>
+<li>
+<p>Reg 1 <br>
+<strong>可以固定，值为 <code>0x00080011</code>，写入后开启发送</strong> <br>
+表示设置传输突发长度、使能提前处理第二个数据包、<strong>开启传输</strong></p>
+</li>
+<li>
+<p>Reg 2 <br>
+<strong>可以固定，值为 <code>0x00080c01</code>，写入后开启接收</strong> <br>
+表示设置接收突发长度、接收缓冲区长度、<strong>开启接收</strong></p>
+</li>
+<li>
+<p>Reg 5 <br>
+<strong>不可以固定</strong> <br>
+表示发送描述符列表的<strong>起始</strong>地址</p>
+</li>
+<li>
+<p>Reg 7 <br>
+<strong>不可以固定</strong> <br>
+表示接收描述符列表的<strong>起始</strong>地址</p>
+</li>
+<li>
+<p>Reg 8 <br>
+<strong>不可以固定</strong> <br>
+表示发送描述符列表的<strong>结束</strong>地址</p>
+</li>
+<li>
+<p>Reg 10 <br>
+<strong>不可以固定</strong> <br>
+表示接收描述符列表的<strong>结束</strong>地址</p>
+</li>
+<li>
+<p>Reg 11 <br>
+<strong>可以固定，值为 <code>0x000001ff</code></strong> <br>
+表示环形发送描述符长度，此处为512</p>
+</li>
+<li>
+<p>Reg 12 <br>
+<strong>可以固定，值为 <code>0x000001ff</code></strong> <br>
+表示环形接收描述符长度，此处为512</p>
+</li>
+<li>
+<p>Reg 13 <br>
+<strong>可以固定，值为 <code>0x0000d041</code></strong> <br>
+中断使能，表示使能发送、Tx缓冲区满、接收、提前接收中断，发送停止、Rx缓冲区满、接收停止、接收看门狗、提前发送、致命错误中断。</p>
+</li>
+<li>
+<p>Reg 15 <br>
+<strong>可以固定，值为 <code>0x000007c0</code></strong> <br>
+此处值为复位默认值，可以不用写，表示的是 TxDMA 工作间隔时间 125us</p>
+</li>
+<li>
+<p>Reg 17 <br>
+<strong>只读寄存器</strong> <br>
+表示当前发送描述符</p>
+</li>
+<li>
+<p>Reg 19 <br>
+<strong>只读寄存器</strong> <br>
+表示当前接收描述符</p>
+</li>
+<li>
+<p>Reg 22 <br>
+<strong>只读寄存器`</strong> <br>
+当前接收缓冲区地址指针的高8位</p>
+</li>
+<li>
+<p>Reg 23 <br>
+<strong>只读寄存器</strong> <br>
+当前接收缓冲区地址指针的低32位</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="rust_register_cmp.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="rust_c_drv.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="rust_register_cmp.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="rust_c_drv.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

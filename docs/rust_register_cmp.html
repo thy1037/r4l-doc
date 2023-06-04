@@ -1,0 +1,670 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>寄存器对比 - r4l</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="env.html"><strong aria-hidden="true">1.</strong> 环境搭建</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="env_docker.html"><strong aria-hidden="true">1.1.</strong> Docker 安装</a></li><li class="chapter-item expanded "><a href="env_docker_config.html"><strong aria-hidden="true">1.2.</strong> Docker 配置</a></li><li class="chapter-item expanded "><a href="env_01.html"><strong aria-hidden="true">1.3.</strong> qemu + linux6.1</a></li><li class="chapter-item expanded "><a href="env_02.html"><strong aria-hidden="true">1.4.</strong> qemu + gdb (TODO)</a></li><li class="chapter-item expanded "><a href="env_03.html"><strong aria-hidden="true">1.5.</strong> qemu + vscode (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="c.html"><strong aria-hidden="true">2.</strong> C 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="c_01.html"><strong aria-hidden="true">2.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="c_02.html"><strong aria-hidden="true">2.2.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">3.</strong> rust 驱动开发</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust_01.html"><strong aria-hidden="true">3.1.</strong> 最简驱动体验</a></li><li class="chapter-item expanded "><a href="rust_mini_ko.html"><strong aria-hidden="true">3.2.</strong> 编译最简 ko 模块</a></li><li class="chapter-item expanded "><a href="rust_fujita_e1000.html"><strong aria-hidden="true">3.3.</strong> linux-fujita + e1000</a></li><li class="chapter-item expanded "><a href="rust_stm32h743_eth_c.html"><strong aria-hidden="true">3.4.</strong> STM32H743 以太网外设初始化分析</a></li><li class="chapter-item expanded "><a href="rust_add_llvm_log.html"><strong aria-hidden="true">3.5.</strong> LLVM 修复记录</a></li><li class="chapter-item expanded "><a href="rust_register_cmp.html" class="active"><strong aria-hidden="true">3.6.</strong> 寄存器对比</a></li><li class="chapter-item expanded "><a href="rust_register_info.html"><strong aria-hidden="true">3.7.</strong> 寄存器说明</a></li><li class="chapter-item expanded "><a href="rust_c_drv.html"><strong aria-hidden="true">3.8.</strong> C 驱动分析</a></li><li class="chapter-item expanded "><a href="rust_02.html"><strong aria-hidden="true">3.9.</strong> 其它 (TODO)</a></li></ol></li><li class="chapter-item expanded "><a href="other.html"><strong aria-hidden="true">4.</strong> 其它</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="other_git_depth_checkout.html"><strong aria-hidden="true">4.1.</strong> depth 1 情况下切换分支</a></li></ol></li><li class="chapter-item expanded "><a href="iic-rust.html"><strong aria-hidden="true">5.</strong> IIC 驱动开发 (TODO)</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">r4l</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thy1037/r4l-doc" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="寄存器对比"><a class="header" href="#寄存器对比">寄存器对比</a></h1>
+<p>BST A1000 GMAC Register Description</p>
+<p><a href="./resource/rm0433-stm32h742-stm32h743753-and-stm32h750.pdf">STM32H743 RM0433.pdf</a></p>
+<h2 id="gmac-registers"><a class="header" href="#gmac-registers">GMAC Registers</a></h2>
+<h3 id="reg-0-0x0000"><a class="header" href="#reg-0-0x0000">Reg 0 0x0000</a></h3>
+<p><em>0x0800E003</em></p>
+<p><strong>STM32:</strong> <br>
+工作模式配置寄存器 ETH_MACCR</p>
+<ul>
+<li>
+<p>bit27 - 校验和减荷，会使能 IPv4 报头校验和检查以及 IPv4 或 IPv6 TCP、UDP 或 ICMP 有效负载 
+校验和检查</p>
+</li>
+<li>
+<p>bit15 - 保留，必须为复位值(0)</p>
+</li>
+<li>
+<p>bit14 - MAC速度，0：10Mbps，1：100Mbps</p>
+</li>
+<li>
+<p>bit13 - 双工模式，1：全双工</p>
+</li>
+<li>
+<p>bit1 - 发送使能</p>
+</li>
+<li>
+<p>bit0 - 接收使能</p>
+</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+EQOS_MAC_R_MAC_CONFIGURATION</p>
+<ul>
+<li>bit15 - Port Select, 与 bit14 联合指示确切速度。在 10/100 Mbps-only （固定1），或 1000Mbps-only（固定0）模式下为只读，在 10/100/1000Mbps 配置下，为读写，0：1000～2500Mbps 选项，1：10～100Mbps 选项</li>
+<li>bit14 - Speed，bit15 为 1 时，0：10Mbps，1：100Mbps，bit15 为 0 时，0：1Gbps，1：2.5Gbps</li>
+</ul>
+<h3 id="reg1-0x0004"><a class="header" href="#reg1-0x0004">Reg1 0x0004</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg2-0x0008"><a class="header" href="#reg2-0x0008">Reg2 0x0008</a></h3>
+<p><em>0x00010404</em></p>
+<p><strong>STM32:</strong> <br>
+数据包过滤控制寄存器 ETH_MACPFR</p>
+<ul>
+<li>bit16 - VLAN 标记过滤器时能，MAC 将对其与 VLAN 标记不匹配的带 VLAN 标记的数据包</li>
+<li>bit10 - Hash 或 Perfect 过滤器，如果数据包与完美过滤或散列过滤（通过 HMC 或 HUC 位设置）匹配，则地址 
+过滤器会通过此数据包</li>
+<li>bit2 - Hash 多播，MAC 根据 Hash 表对接收到的多播数据包执行目标地址过滤</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg3-0x000c"><a class="header" href="#reg3-0x000c">Reg3 0x000C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg4-0x0010"><a class="header" href="#reg4-0x0010">Reg4 0x0010</a></h3>
+<p><em>0x00000002</em></p>
+<p><strong>STM32:</strong> <br>
+散列表 0 寄存器 ETH_MACHT0R</p>
+<ul>
+<li>64位散列表的低32位 即 [31:0]</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg5-0x0014"><a class="header" href="#reg5-0x0014">Reg5 0x0014</a></h3>
+<p><em>0x04000001</em></p>
+<p><strong>STM32:</strong> <br>
+散列表 1 寄存器 ETH_MACHT1R</p>
+<ul>
+<li>64位散列表的高32位 即 [63:32]</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg6-0x0018"><a class="header" href="#reg6-0x0018">Reg6 0x0018</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg7-0x001c"><a class="header" href="#reg7-0x001c">Reg7 0x001C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg8-0x0020"><a class="header" href="#reg8-0x0020">Reg8 0x0020</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg9-0x0024"><a class="header" href="#reg9-0x0024">Reg9 0x0024</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg10-0x0028"><a class="header" href="#reg10-0x0028">Reg10 0x0028</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg11-0x002c"><a class="header" href="#reg11-0x002c">Reg11 0x002C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg12-0x0030"><a class="header" href="#reg12-0x0030">Reg12 0x0030</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg13-0x0034"><a class="header" href="#reg13-0x0034">Reg13 0x0034</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg14-0x0038"><a class="header" href="#reg14-0x0038">Reg14 0x0038</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg15-0x003c"><a class="header" href="#reg15-0x003c">Reg15 0x003C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg16-0x0040"><a class="header" href="#reg16-0x0040">Reg16 0x0040</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg17-0x0044"><a class="header" href="#reg17-0x0044">Reg17 0x0044</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg18-0x0048"><a class="header" href="#reg18-0x0048">Reg18 0x0048</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg19-0x004c"><a class="header" href="#reg19-0x004c">Reg19 0x004C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg20-0x0050"><a class="header" href="#reg20-0x0050">Reg20 0x0050</a></h3>
+<p><em>0x0201001C</em></p>
+<p><strong>STM32:</strong> <br>
+VLAN 标记寄存器 ETH_MACVTR</p>
+<ul>
+<li>bit25 - 散列表匹配使能</li>
+<li>bit16 - 12 位 VLAN 标记比较使能</li>
+<li>bit[15:0] - 用于接收数据包的 VLAN 标记标识符</li>
+</ul>
+<p><strong>A1000:</strong> <br></p>
+<ul>
+<li>bit25 - 散列表匹配使能</li>
+<li>bit16 - 12 位 VLAN 标记比较使能</li>
+<li>bit[4:2] - 偏移，应用程序尝试访问的 MAC VLAN 标记过滤器寄存器的地址偏移量</li>
+</ul>
+<h3 id="reg21-0x0054"><a class="header" href="#reg21-0x0054">Reg21 0x0054</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg22-0x0058"><a class="header" href="#reg22-0x0058">Reg22 0x0058</a></h3>
+<p><em>0x00000001</em></p>
+<p><strong>STM32:</strong> <br>
+VLAN 散列表寄存器 ETH_MACVHTR</p>
+<ul>
+<li>bit[15:0] - 16位 VLAN 散列表</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg23-0x005c"><a class="header" href="#reg23-0x005c">Reg23 0x005C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg24-0x0060"><a class="header" href="#reg24-0x0060">Reg24 0x0060</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg25-0x0064"><a class="header" href="#reg25-0x0064">Reg25 0x0064</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg26-0x0068"><a class="header" href="#reg26-0x0068">Reg26 0x0068</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg27-0x006c"><a class="header" href="#reg27-0x006c">Reg27 0x006C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg28-0x0070"><a class="header" href="#reg28-0x0070">Reg28 0x0070</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg29-0x0074"><a class="header" href="#reg29-0x0074">Reg29 0x0074</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg30-0x0078"><a class="header" href="#reg30-0x0078">Reg30 0x0078</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg31-0x007c"><a class="header" href="#reg31-0x007c">Reg31 0x007C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg32-0x0080"><a class="header" href="#reg32-0x0080">Reg32 0x0080</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg33-0x0084"><a class="header" href="#reg33-0x0084">Reg33 0x0084</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg34-0x0088"><a class="header" href="#reg34-0x0088">Reg34 0x0088</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg35-0x008c"><a class="header" href="#reg35-0x008c">Reg35 0x008C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg36-0x0090"><a class="header" href="#reg36-0x0090">Reg36 0x0090</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg37-0x0094"><a class="header" href="#reg37-0x0094">Reg37 0x0094</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg38-0x0098"><a class="header" href="#reg38-0x0098">Reg38 0x0098</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg39-0x009c"><a class="header" href="#reg39-0x009c">Reg39 0x009C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg40-0x00a0"><a class="header" href="#reg40-0x00a0">Reg40 0x00A0</a></h3>
+<p><em>0x000000AA</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br>
+EQOS_MAC_R_MAC_RXQ_CTRL0</p>
+<ul>
+<li>bit[7:6] - 接收队列3使能，2：使能 DCB/Generic 队列</li>
+<li>bit[5:4] - 接收队列2使能，2：使能 DCB/Generic 队列</li>
+<li>bit[3:2] - 接收队列1使能，2：使能 DCB/Generic 队列</li>
+<li>bit[1:0] - 接收队列0使能，2：使能 DCB/Generic 队列</li>
+</ul>
+<h3 id="reg41-0x00a4"><a class="header" href="#reg41-0x00a4">Reg41 0x00A4</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg42-0x00a8"><a class="header" href="#reg42-0x00a8">Reg42 0x00A8</a></h3>
+<p><em>0x03020100</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br>
+EQOS_MAC_R_MAC_RXQ_CTRL2</p>
+<ul>
+<li>bit[31:24] - 接收队列3的优先级，3</li>
+<li>bit[23:16] - 接收队列2的优先级，2</li>
+<li>bit[15:0] - 接收队列1的优先级，1</li>
+<li>bit[7:0] - 接收队列0的优先级，0</li>
+</ul>
+<h3 id="reg43-0x00ac"><a class="header" href="#reg43-0x00ac">Reg43 0x00AC</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg44-0x00b0"><a class="header" href="#reg44-0x00b0">Reg44 0x00B0</a></h3>
+<p><em>0x00040000</em></p>
+<p><strong>STM32:</strong> <br>
+中断状态寄存器 ETH_MACISR</p>
+<ul>
+<li>bit[31:16] - 保留</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+EQOS_MAC_R_MAC_INTERRUPT_STATUS</p>
+<ul>
+<li>bit18 - MDIO Interrupt Status，MDIO 完成操作中断指示位</li>
+</ul>
+<h3 id="reg45-0x00b4"><a class="header" href="#reg45-0x00b4">Reg45 0x00B4</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg46-0x00b8"><a class="header" href="#reg46-0x00b8">Reg46 0x00B8</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg47-0x00bc"><a class="header" href="#reg47-0x00bc">Reg47 0x00BC</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg48-0x00c0"><a class="header" href="#reg48-0x00c0">Reg48 0x00C0</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg49-0x00c4"><a class="header" href="#reg49-0x00c4">Reg49 0x00C4</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg50-0x00c8"><a class="header" href="#reg50-0x00c8">Reg50 0x00C8</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg51-0x00cc"><a class="header" href="#reg51-0x00cc">Reg51 0x00CC</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg52-0x00d0"><a class="header" href="#reg52-0x00d0">Reg52 0x00D0</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg53-0x00d4"><a class="header" href="#reg53-0x00d4">Reg53 0x00D4</a></h3>
+<p><em>0x03E80000</em></p>
+<p><strong>STM32:</strong> <br>
+LPI 定时器控制寄存器 ETH_MACLTCR</p>
+<ul>
+<li>bit[25:16] - LPI LS 定时器，在可以将 LPI 模式发送到 PHY 之前，来自 PHY 的链路状态 (OKAY) 应持续的最短 
+时间（以毫秒为单位），1000</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg54-0x00d8"><a class="header" href="#reg54-0x00d8">Reg54 0x00D8</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h2 id="dma-registers"><a class="header" href="#dma-registers">DMA Registers</a></h2>
+<blockquote>
+<p>未完成，寄存器对应关系不对</p>
+<p>直接查看 <a href="./rust_register_info.html">寄存器说明</a></p>
+</blockquote>
+<h3 id="reg0-0x1000"><a class="header" href="#reg0-0x1000">Reg0 0x1000</a></h3>
+<p><em>0x00010000</em></p>
+<p><strong>STM32:</strong> <br>
+DMA 模式寄存器 ETH_DMAMR</p>
+<ul>
+<li>bit[17:16] - 以太网外设的中断模式，<br>0：检测到传送完成事件时，TI/RI 状态信号会被置 1。软件驱动程序向这些位写入 1 时，这些位会被清零。如果还在 ETH_DMACIER 寄存器中使能了相应的中断，则中断信号会被置为有效；<br>1：如上所述，TI/RI 置 1。不过，对于任一 RI/TI 事件，都不会触发中断；<br>2：RI/TI 状态位会在检测到传送完成事件时置 1，并且会在软件驱动程序通过写入 1 来将其清零时复位。不过，如果在软件将其清除（处理）之前检测到另一个传送完成事件，则会自动再次将这些状态位置 1。但是，并非基于 TI/RI 生成中断。</li>
+</ul>
+<p><strong>A1000:</strong> <br>
+<em>同上</em></p>
+<h3 id="reg1-0x1004"><a class="header" href="#reg1-0x1004">Reg1 0x1004</a></h3>
+<p><em>0x00080011</em></p>
+<p><strong>STM32:</strong> <br>
+系统总线模式寄存器 ETH_DMASBMR</p>
+<ul>
+<li>bit19 - 保留</li>
+<li>bit1 - 保留</li>
+<li>bit0 - 固定突发长度，1：AHB 主设备将发起特定长度的突发传输（INCRx 或 SINGLE）</li>
+</ul>
+<p><strong>A1000:</strong> <br></p>
+<ul>
+<li>bit[19:16] - AXI 最大读取未完成请求限制，8</li>
+<li>bit1 - AXI 突发长度为4</li>
+<li>bit0 - 固定突发长度</li>
+</ul>
+<h3 id="reg2-0x1008"><a class="header" href="#reg2-0x1008">Reg2 0x1008</a></h3>
+<p><em>0x00080C01</em></p>
+<p><strong>STM32:</strong> <br>
+中断状态寄存器 ETH_DMAISR</p>
+<ul>
+<li>bit19 - 保留</li>
+<li>bit11 - 保留</li>
+<li>bit10 - 保留</li>
+<li>bit0 - DMA 通道中断状态，此位指示 DMA 通道中发生的中断事件。要将该位复位为 0，软件必须读取 DMA 通道中的相应寄存器，以获取产生中断的具体原因，然后将中断源清除。</li>
+</ul>
+<p><strong>A1000:</strong> <br></p>
+<ul>
+<li>bit0 - DMA Ch0 中断状态，清除条件同上。</li>
+</ul>
+<h3 id="reg3-0x100c"><a class="header" href="#reg3-0x100c">Reg3 0x100C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMADSR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg4-0x1100"><a class="header" href="#reg4-0x1100">Reg4 0x1100</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACCR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg5-0x1104"><a class="header" href="#reg5-0x1104">Reg5 0x1104</a></h3>
+<p><em>0x83194000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACTxCR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg6-0x1108"><a class="header" href="#reg6-0x1108">Reg6 0x1108</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACRxCR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg7-0x110c"><a class="header" href="#reg7-0x110c">Reg7 0x110C</a></h3>
+<p><em>0x83186000</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg8-0x1100"><a class="header" href="#reg8-0x1100">Reg8 0x1100</a></h3>
+<p><em>0x83194000</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg9-0x1114"><a class="header" href="#reg9-0x1114">Reg9 0x1114</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg10-0x1028"><a class="header" href="#reg10-0x1028">Reg10 0x1028</a></h3>
+<p><em>0x83188000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACTxDLAR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg11-0x111c"><a class="header" href="#reg11-0x111c">Reg11 0x111C</a></h3>
+<p><em>0x000001FF</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACRxDLAR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg12-0x1120"><a class="header" href="#reg12-0x1120">Reg12 0x1120</a></h3>
+<p><em>0x000001FF</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACTxDTPR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg13-0x1124"><a class="header" href="#reg13-0x1124">Reg13 0x1124</a></h3>
+<p><em>0x0000D041</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg14-0x1128"><a class="header" href="#reg14-0x1128">Reg14 0x1128</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACRxDTPR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg15-0x112c"><a class="header" href="#reg15-0x112c">Reg15 0x112C</a></h3>
+<p><em>0x000007C0</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACTxDRLR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg16-0x1130"><a class="header" href="#reg16-0x1130">Reg16 0x1130</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACRxDRLR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg17-0x1134"><a class="header" href="#reg17-0x1134">Reg17 0x1134</a></h3>
+<p><em>0x83194000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACIER</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg18-0x1138"><a class="header" href="#reg18-0x1138">Reg18 0x1138</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACRxIWTR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg19-0x1140"><a class="header" href="#reg19-0x1140">Reg19 0x1140</a></h3>
+<p><em>0x83186260</em></p>
+<p><strong>STM32:</strong> <br>
+<em>保留</em></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg20-0x1050"><a class="header" href="#reg20-0x1050">Reg20 0x1050</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br></p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg21-0x1054"><a class="header" href="#reg21-0x1054">Reg21 0x1054</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACCATxBR</p>
+<p><strong>A1000:</strong> <br></p>
+<h3 id="reg22-0x116c"><a class="header" href="#reg22-0x116c">Reg22 0x116C</a></h3>
+<p><em>0x00000000</em></p>
+<p><strong>STM32:</strong> <br>
+ETH_DMACMFCR</p>
+<p><strong>A1000:</strong> <br></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="rust_add_llvm_log.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="rust_register_info.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="rust_add_llvm_log.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="rust_register_info.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
